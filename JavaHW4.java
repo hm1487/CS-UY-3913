@@ -11,17 +11,19 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+//Create a boolean array to coincide with the button array
 /**
  *
- * @author PwintMin
+ * @author htoomin
  */
 public class JavaHW4 {
+    
+    static boolean[] checker = new boolean[8];
+    static ArrayList<JButton> al = new ArrayList<JButton>();
 
     /**
      * @param args the command line arguments
@@ -30,14 +32,16 @@ public class JavaHW4 {
         JFrame jf = new JFrame("Java HW 2");
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setSize(800,400);
-
+        
         JPanel jp = new JPanel();
         jp.setLayout(new GridLayout(4,2)); //Change the layout of the buttons here
-        ArrayList<JButton> al = new ArrayList<JButton>();
         for (int x = 1; x < 9; x++){ //change the number of buttons here
             al.add(new JButton(Integer.toString(x)));
         }
-        for (JButton x : al){            
+        for (JButton x : al){        
+            x.setOpaque(true);
+            x.setContentAreaFilled(true);
+            x.setBorderPainted(false);
             int red = (int)(Math.random()*255);
             int green = (int)(Math.random()*255);
             int blue = (int)(Math.random()*255);
@@ -45,47 +49,57 @@ public class JavaHW4 {
             x.addActionListener(new MyButtonAction());
             jp.add(x);        
         }
+        for (boolean x: checker)
+            System.out.println(x);
         jf.add(jp);
         jf.setVisible(true);
         new ColorChange(al).start();
     }       
-}
 
-class ColorChange extends Thread{
+
+static class ColorChange extends Thread{
     ArrayList<JButton> temp = new ArrayList<JButton>();
     ColorChange(ArrayList<JButton> al){temp=al;}
     public void run(){
         
         for(;;) {
+            int counter = 0;
             for (JButton x : temp){
-                int red = (int)(Math.random()*255);
-                int green = (int)(Math.random()*255);
-                int blue = (int)(Math.random()*255);
-                x.setBackground(new Color(red,green,blue));
+                if (checker[counter] == false){
+                    int red = (int)(Math.random()*255);
+                    int green = (int)(Math.random()*255);
+                    int blue = (int)(Math.random()*255);
+                    x.setBackground(new Color(red,green,blue));
+                }
+                counter++;
             }
             try {
             Thread.sleep(1000);
             } 
             catch (InterruptedException ex) {
-               System.out.println("Blah");
+               System.out.println("Whoopsies!");
             }
         }
         
     }
 }
     
- class MyButtonAction implements ActionListener{
+static class MyButtonAction implements ActionListener{
         public void actionPerformed(ActionEvent e){
             JButton jb = (JButton) e.getSource();
             JPanel jp = (JPanel) jb.getParent();
-            Component[] components = jp.getComponents();
-            for (Component x : components){
-                if (x != jb){
-                    int red = (int)(Math.random()*255);
-                    int green = (int)(Math.random()*255);
-                    int blue = (int)(Math.random()*255);
-                    x.setBackground(new Color(red,green,blue));
+            int counter = 0;
+            for (JButton x : al){
+                if (x == jb){
+                    if (checker[counter] == true)
+                        checker[counter] = false;
+                    else
+                        checker[counter] = true;
                 }
+                counter++;
             }
         }
+    }
 }
+
+
