@@ -4,6 +4,12 @@
  * and open the template in the editor.
  */
 package chatserver;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
 
 /**
  *
@@ -15,7 +21,8 @@ public class ChatServer {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JFrame jf = new JFrame("Chat Login");
+        
     }
     
 }
