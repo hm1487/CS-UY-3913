@@ -10,18 +10,34 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
  * @author PwintMin
  */
 public class ChatServer {
-
+    
+    static String username;
+    static boolean haveUsername = false; 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        JFrame jf = new JFrame("Chat Login");
+        JFrame jf = new JFrame();
+        ServerLogin sl = new ServerLogin();
+        sl.setVisible(true);
+        while(haveUsername == false){
+            try{
+                Thread.sleep(100);
+            } catch (InterruptedException ex){
+                Thread.currentThread().interrupt(); 
+            }
+        }
+        ChatRoom cr = new ChatRoom();
+        cr.setVisible(true);
+        cr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
         
     }
     
