@@ -5,40 +5,71 @@
  */
 package chatserver;
 import java.io.*;
-import java.net.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
-import java.util.concurrent.TimeUnit;
-
+import java.net.*;
 /**
  *
- * @author PwintMin
+ * @author htoomin
  */
 public class ChatServer {
+
     
-    static String username;
-    static boolean haveUsername = false; 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        JFrame jf = new JFrame();
-        ServerLogin sl = new ServerLogin();
-        sl.setVisible(true);
-        while(haveUsername == false){
+    static int portNum = 5190;
+    
+    public static class ServerThread implements Runnable{
+        private Socket tempSocket;
+        
+        public ServerThread(Socket s){
+            this.tempSocket = s;
+        }
+        
+        @Override
+        public void run(){}
+    }
+    
+    public static class UserThread implements Runnable{
+        private Socket socket;
+        
+        public UserThread(Socket s){
+            this.socket = s;
+        }
+        @Override
+        public void run(){}
+    }
+    
+    public static void addUsers(ServerSocket x){ //making sure that we are people to the chatroom
+        while (true){
+            ArrayList<UserThread> users = new ArrayList<UserThread>();
             try{
-                Thread.sleep(100);
-            } catch (InterruptedException ex){
-                Thread.currentThread().interrupt(); 
+                Socket tempSocket = x.accept();
+                UserThread user = new UserThread(tempSocket);
+                Thread thread = new Thread(user);
+                thread.start();
+                users.add(user);
+                
+            } catch (IOException ex){
+                
             }
         }
-        ChatRoom cr = new ChatRoom();
-        cr.setVisible(true);
-        cr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
+    }
+    public static void main(String[] args) {
+        ServerSocket ss = null;
+        try{
+            ss = new ServerSocket(portNum);
+            addUsers(ss);
+            while(true){
+                System.out.println("Waiting for a connection on port " + portNum);
+                Socket client = ss.accept();
+                
+            }
+            
+        } 
+        catch (IOException ex){
+            System.out.println("Could not get to the socket!");
+        }
     }
     
 }
