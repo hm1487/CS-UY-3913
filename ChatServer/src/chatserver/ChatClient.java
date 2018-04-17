@@ -34,6 +34,7 @@ public class ChatClient {
                 Thread.currentThread().interrupt(); 
             }
         }
+        //ChatServer.UserThread temp = new ChatServer.UserThread(ChatServer.portNum);
         ChatRoom cr = new ChatRoom();
         cr.setVisible(true);
         cr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

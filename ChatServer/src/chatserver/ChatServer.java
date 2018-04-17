@@ -18,6 +18,7 @@ public class ChatServer {
      * @param args the command line arguments
      */
     static int portNum = 5190;
+    static ArrayList<UserThread> users = new ArrayList<UserThread>();
     
     public static class ServerThread implements Runnable{
         private Socket tempSocket;
@@ -42,14 +43,12 @@ public class ChatServer {
     
     public static void addUsers(ServerSocket x){ //making sure that we are people to the chatroom
         while (true){
-            ArrayList<UserThread> users = new ArrayList<UserThread>();
             try{
                 Socket tempSocket = x.accept();
                 UserThread user = new UserThread(tempSocket);
                 Thread thread = new Thread(user);
                 thread.start();
                 users.add(user);
-                
             } catch (IOException ex){
                 
             }
@@ -63,7 +62,7 @@ public class ChatServer {
             while(true){
                 System.out.println("Waiting for a connection on port " + portNum);
                 Socket client = ss.accept();
-                
+                Scanner sin = new Scanner(client.getInputStream());
             }
             
         } 
