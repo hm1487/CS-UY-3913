@@ -34,7 +34,13 @@ public class ChatServer {
             nickname = sin.nextLine();
             System.out.println(nickname);
             while (sin.hasNext()){
-                System.out.println(sin.nextLine());
+                for (ProcessConnection x : users){
+                    if (x.client != this.client){
+                        PrintStream temp = new PrintStream(x.client.getOutputStream());
+                        temp.println(sin.nextLine());
+                    }
+                    
+                }
             }
             client.close();
         } catch (IOException ex){
