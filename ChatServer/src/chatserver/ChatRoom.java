@@ -45,7 +45,7 @@ public class ChatRoom extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
-        jTextArea2.append(ChatClient.username + " has joined the room!\n");
+        jTextArea2.append(ChatClient.username + "\n");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,6 +77,7 @@ public class ChatRoom extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ChatClient.ps.println(jTextField1.getText());
         jTextArea2.append(ChatClient.username + ": " + jTextField1.getText() + "\n");
         jTextField1.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed

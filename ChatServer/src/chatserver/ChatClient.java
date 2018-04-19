@@ -19,7 +19,9 @@ import java.util.concurrent.TimeUnit;
 public class ChatClient {
     
     static String username;
-    static boolean haveUsername = false; 
+    static boolean haveUsername = false;
+    static int portNum = 5190;
+    static PrintStream ps = null;
     /**
      * @param args the command line arguments
      */
@@ -27,19 +29,31 @@ public class ChatClient {
         JFrame jf = new JFrame();
         ServerLogin sl = new ServerLogin();
         sl.setVisible(true);
-        while(haveUsername == false){
-            try{
-                Thread.sleep(100);
-            } catch (InterruptedException ex){
-                Thread.currentThread().interrupt(); 
+        Socket socket = null;
+        try{
+            System.out.println("trying to get to socket");           
+            socket = new Socket("192.168.1.10",portNum);
+            
+            while(haveUsername == false){
+                try{
+                    Thread.sleep(100);
+                } catch (InterruptedException ex){
+                    Thread.currentThread().interrupt(); 
+                }
             }
-        }
-        //ChatServer.UserThread temp = new ChatServer.UserThread(ChatServer.portNum);
-        ChatRoom cr = new ChatRoom();
-        cr.setVisible(true);
-        cr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+            System.out.println("We got to the port!");
+            ps = new PrintStream(socket.getOutputStream());
+            ps.println(username);
         
-    }
-    
+            //ChatServer.UserThread temp = new ChatServer.UserThread(ChatServer.portNum);
+            ChatRoom cr = new ChatRoom();
+            cr.setVisible(true);
+            cr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+           
+        }catch (IOException ex){
+            System.out.println("You fucked up");
+        }  
+    }  
 }
+    
