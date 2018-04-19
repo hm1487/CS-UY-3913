@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/htoomin/NetBeansProjects/ChatServer/src/chatserver/ChatServer.java</file>
+            <file>file:/Users/htoomin/Documents/GitHub/CS-UY-3913/ChatServer/src/chatserver/ChatClient.java</file>
+            <file>file:/Users/htoomin/Documents/GitHub/CS-UY-3913/ChatServer/src/chatserver/ServerLogin.java</file>
+            <file>file:/Users/htoomin/Documents/GitHub/CS-UY-3913/ChatServer/src/chatserver/ChatRoom.java</file>
         </group>
     </open-files>
 </project-private>
