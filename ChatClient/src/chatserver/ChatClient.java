@@ -17,16 +17,19 @@ import java.util.concurrent.TimeUnit;
 /**
  *
  * @author PwintMin
- */
+ *///
 
+//I couldn't figure out how to make a client where you could choose the ip addresses
+//I just made it so that it senses the IP address of the computer that it's on.
+//
 public class ChatClient {
     
     static String username;
     static boolean haveUsername = false;
     static int portNum = 5190;
     static PrintStream ps = null;
-    static String desiredIP;
-    static boolean haveIP;
+    //static String desiredIP;
+    //static boolean haveIP;
     static Vector<String> addressHolder = new Vector<String>();
     /**
      * @param args the command line arguments
@@ -43,7 +46,7 @@ public class ChatClient {
             while (true){
                 if (s.hasNext()){
                     String temp = s.nextLine();
-                    System.out.println(temp);
+                    //System.out.println(temp);
                     ChatRoom.jTextArea2.append(temp + "\n");
                 }
             }
@@ -55,23 +58,27 @@ public class ChatClient {
         sl.setVisible(true);
         Socket socket = null;
         try{
-            System.out.println("trying to get to socket");  
-            InetAddress address = InetAddress.getLocalHost();
-            addressHolder.add(address.getHostAddress().toString());
-            ServerLogin.jList1.setListData(addressHolder);
+            System.out.println("trying to get to socket");
             
-            
-            while(haveUsername == false && haveIP == false){
+          
+            while(haveUsername == false){
                 try{
                     Thread.sleep(100);
                 } catch (InterruptedException ex){
                     Thread.currentThread().interrupt(); 
                 }
             }
-            socket = new Socket(desiredIP.trim(),portNum);
+            
+            InetAddress address = InetAddress.getLocalHost();
+            addressHolder.add(address.getHostAddress().toString());
+            String ipAddress = address.getHostAddress().toString();
+            socket = new Socket(ipAddress,portNum); //Can change the IP address here!
+            
+           
             System.out.println("We got to the port!");
             ps = new PrintStream(socket.getOutputStream());
             ps.println(username);
+            Scanner temp = new Scanner(socket.getInputStream());
         
             //ChatServer.UserThread temp = new ChatServer.UserThread(ChatServer.portNum);
             ChatRoom cr = new ChatRoom();
