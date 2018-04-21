@@ -33,6 +33,7 @@ public class ChatRoom extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(ChatClient.username);
 
         jButton1.setText("Send");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -45,7 +46,6 @@ public class ChatRoom extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane2.setViewportView(jTextArea2);
-        jTextArea2.append(ChatClient.username + "\n");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,7 +78,6 @@ public class ChatRoom extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ChatClient.ps.println(jTextField1.getText());
-        jTextArea2.append(ChatClient.username + ": " + jTextField1.getText() + "\n");
         jTextField1.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -120,7 +119,7 @@ public class ChatRoom extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
+    public static javax.swing.JTextArea jTextArea2;
+    public static javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

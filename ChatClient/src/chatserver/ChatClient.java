@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package chatserver;
+import static chatserver.ChatRoom.jTextArea2;
+import static chatserver.ChatRoom.jTextField1;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -16,32 +18,57 @@ import java.util.concurrent.TimeUnit;
  *
  * @author PwintMin
  */
+
 public class ChatClient {
     
     static String username;
     static boolean haveUsername = false;
     static int portNum = 5190;
     static PrintStream ps = null;
+    static String desiredIP;
+    static boolean haveIP;
+    static Vector<String> addressHolder = new Vector<String>();
     /**
      * @param args the command line arguments
      */
+    
+    public static class ClientDriver extends Thread{
+        Scanner s;
+        
+        ClientDriver(Scanner news){
+            s = news;
+        }
+        
+        public void run(){
+            while (true){
+                if (s.hasNext()){
+                    String temp = s.nextLine();
+                    System.out.println(temp);
+                    ChatRoom.jTextArea2.append(temp + "\n");
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
         JFrame jf = new JFrame();
         ServerLogin sl = new ServerLogin();
         sl.setVisible(true);
         Socket socket = null;
         try{
-            System.out.println("trying to get to socket");           
-            socket = new Socket("192.168.1.10",portNum);
+            System.out.println("trying to get to socket");  
+            InetAddress address = InetAddress.getLocalHost();
+            addressHolder.add(address.getHostAddress().toString());
+            ServerLogin.jList1.setListData(addressHolder);
             
-            while(haveUsername == false){
+            
+            while(haveUsername == false && haveIP == false){
                 try{
                     Thread.sleep(100);
                 } catch (InterruptedException ex){
                     Thread.currentThread().interrupt(); 
                 }
             }
-        
+            socket = new Socket(desiredIP.trim(),portNum);
             System.out.println("We got to the port!");
             ps = new PrintStream(socket.getOutputStream());
             ps.println(username);
@@ -50,9 +77,14 @@ public class ChatClient {
             ChatRoom cr = new ChatRoom();
             cr.setVisible(true);
             cr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            
+            
+            Scanner sin = new Scanner(socket.getInputStream());
+            ClientDriver cd = new ClientDriver(sin);
+            cd.run();
            
         }catch (IOException ex){
-            System.out.println("You fucked up");
+            System.out.println("You messed up");
         }  
     }  
 }
